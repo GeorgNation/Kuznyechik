@@ -440,7 +440,7 @@ namespace Kuznyechik
 
             int lossBytes = BlockSize - arr.Length % BlockSize;
             Array.Resize(ref arr, arr.Length + lossBytes);
-            arr[^1] = (byte)lossBytes;
+            arr[arr.Length - 1] = (byte)lossBytes;
             
             Encrypt(arr);
         }
@@ -484,7 +484,7 @@ namespace Kuznyechik
                 long leftByteCount = dataStream.Length - dataStream.Position;
                 buffer = new byte[leftByteCount + loss];
                 dataStream.Read(buffer, 0, (int)leftByteCount);
-                buffer[^1] = loss;
+                buffer[buffer.Length - 1] = loss;
             }
             
             Encrypt(buffer);
@@ -508,7 +508,7 @@ namespace Kuznyechik
             }
 
             Decrypt(arr);
-            byte lossByte = arr[^1];
+            byte lossByte = arr[arr.Length - 1];
 
             if (lossByte > BlockSize)
             {
@@ -556,7 +556,7 @@ namespace Kuznyechik
             dataStream.Read(buffer, 0, buffer.Length);
             Decrypt(buffer);
 
-            byte loss = buffer[^1];
+            byte loss = buffer[buffer.Length - 1];
             decryptedStream.Write(buffer, 0, buffer.Length - loss);
         }
 
